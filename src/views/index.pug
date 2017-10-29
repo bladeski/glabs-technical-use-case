@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1= title
+    
+    div(id="notificationBox" class="alert alert-success" data-bind="visible: showingAlert, click: clearAlert()") There are new items
+        span
+            button(class="btn btn-link fa fa-close fa-lg")
+    
+    table
+        tr
+            th Reference
+            th Name
+            th Value
+            th Processing Date
+            th Bank
+        <!-- ko foreach: returnedDebitItems -->
+        tr
+            td(data-bind="text: _ref")
+            td(data-bind="text: PayerAccount._name")
+            td(data-bind="text: _valueOf + ' ' + _currency")
+            td(data-bind="text: _originalProcessingDate")
+            td(data-bind="text: PayerAccount._bankName")
+        <!-- /ko -->
+    
+    script= items
+    
+block scripts    
+    | require(['index'], function(index) {});

@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/lib/bootstrap/bootstrap.min.css')
+        link(rel='stylesheet', href='/lib/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/styles/style.css')
+    body
+        block content
+            
+        script(src="/lib/requirejs/require.js")
+        script
+            | require(['scripts/config'], function (){
+            block scripts
+            | });
