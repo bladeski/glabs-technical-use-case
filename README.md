@@ -28,8 +28,11 @@ Further work is required to introduce proper validation and error handling, as w
 ## Installation
 
 Update the configuration file with MongoDB connection details
+
 NPM install and run npm start
+
 Once started the server will monitor the *src/data/new* directory and process files in here every 30 seconds, as per the task requirements.
+
 Open http://localhost:3000 for viewing Socket.io notifications and the processed ReturnedDebitItems
 
 ## License
