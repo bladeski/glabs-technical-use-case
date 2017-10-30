@@ -8,9 +8,11 @@ var dbInterface = require('./dbInterface');
 
 var dataProcessor = {};
 
-dataProcessor.fileList = [];
-
-// Monitor the chosen directory for files and add to the database
+/**
+ * dataProcessor.monitor - monitors the selected directory for new files
+ *
+ * @param  {type} dataDirectory The directory to monitor
+ */
 dataProcessor.monitor = function (dataDirectory) {
 
     var fileLocation = dataDirectory + '/new';
@@ -23,9 +25,6 @@ dataProcessor.monitor = function (dataDirectory) {
         }
 
         items.forEach(function (item) {
-
-            console.log(item);
-            dataProcessor.fileList.push(item);
 
             var readStream = fs.createReadStream(fileLocation + '/' + item),
                 file = '';
@@ -45,8 +44,14 @@ dataProcessor.monitor = function (dataDirectory) {
     });
 };
 
-// Process the xml files
-processFile = function (file) {
+
+/**
+ * processFile - validates that a file is valid XML and then saves XML and returned debit items to db
+ *
+ * @param  {type} file The file to process
+ * @return {type}      Return void
+ */
+function processFile (file) {
 
     var options = {
         attrPrefix : "_",
@@ -72,8 +77,16 @@ processFile = function (file) {
     }
 };
 
-// Move files
-moveFile = function (file, location, destination) {
+/**
+ * moveFile - Moves a file from one location to another
+ *
+ * @param  {type} file        The file to move
+ * @param  {type} location    The current location of the file
+ * @param  {type} destination The location to move the file to
+ * @return {type}             Return void
+ */
+
+function moveFile (file, location, destination) {
 
     if (fs.isFileSync(location + '/' + file) && fs.isDirectorySync(destination)) {
         console.log('Moving ' + file + ' from ' + location + ' to ' + destination);

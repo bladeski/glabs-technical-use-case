@@ -21,6 +21,10 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+
+/**
+ * Set up socket.io to listen for update notifications to pass onto the client
+ */
 var io = require('socket.io')(server);
 io.on('connect', function(socket){
 

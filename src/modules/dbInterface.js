@@ -3,6 +3,10 @@ var mongoClient = require('mongodb').MongoClient,
 
 var CONFIG = require('../config/config');
 
+
+/**
+ * Use CONFIG file details to connect to MongoDB database
+ */
 var dbInterface = {},
     url = 'mongodb://' + CONFIG.dbUsername + ':' + CONFIG.dbPassword + '@' + CONFIG.dbURL;
 
@@ -15,6 +19,14 @@ var getConnection = function (callback) {
     });
 };
 
+/**
+ * dbInterface.saveItem - saves an item to the database in the collection specified and emits a socket.io event upon completion to notify users that a file has been processed
+ *
+ * @param  {type} item             The item to save
+ * @param  {type} collectionName   The collection to save the item to
+ * @param  {type} notificationName The socket.io event name to emit
+ * @return {type}                  Return void
+ */
 dbInterface.saveItem = function (item, collectionName, notificationName) {
 
     getConnection(function (db) {
@@ -27,6 +39,7 @@ dbInterface.saveItem = function (item, collectionName, notificationName) {
                     .then(function (result) {
 
                         if (result.insertedCount === 1 && notificationName) {
+                            // Emit socket.io notification
                             socket.emit(notificationName, item);
                         } else {
                             console.log('There was a problem saving item: ');
@@ -41,6 +54,13 @@ dbInterface.saveItem = function (item, collectionName, notificationName) {
     });
 };
 
+/**
+ * dbInterface.getItems - Get all items from the specified collection
+ *
+ * @param  {type} collectionName The name of the collection to get items from
+ * @param  {type} callback       The callback function to use
+ * @return {type}                Return void
+ */
 dbInterface.getItems = function (collectionName, callback) {
 
     getConnection(function (db) {
@@ -49,7 +69,6 @@ dbInterface.getItems = function (collectionName, callback) {
         collection.find().toArray().then(function (items) {
 
             db.close();
-            console.log(items);
             callback && callback(items);
         });
     });
